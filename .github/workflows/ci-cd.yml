@@ -18,10 +18,13 @@ jobs:
       - name: Build Frontend Image
         run: docker build -t expense-frontend ./frontend
 
+      - name: Stop Old Containers (If Running)
+        run: |
+          docker stop backend-service frontend-service || true
+          docker rm backend-service frontend-service || true
+
       - name: Run Backend Container
         run: docker run -d --name backend-service -p 5000:5000 expense-backend
 
       - name: Run Frontend Container
         run: docker run -d --name frontend-service -p 80:80 expense-frontend
-
-
