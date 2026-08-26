@@ -1,26 +1,27 @@
 name: Expense Tracker CI/CD
 
-# Trigger the pipeline on every push to the main branch
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
   build-and-deploy:
-    # Run this job on your self-hosted Linux runner
     runs-on: self-hosted
 
     steps:
-      # Step 1: Pull the latest code from GitHub
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Validate Docker Compose configuration
-      - name: Check Docker Compose Setup
-        run: docker compose config
+      - name: Build Backend Image
+        run: docker build -t expense-backend ./backend
 
-      # Step 3: Build images and start containers
-      - name: Build and Run Containers
-        run: docker compose up -d --build
+      - name: Build Frontend Image
+        run: docker build -t expense-frontend ./frontend
+
+      - name: Run Backend Container
+        run: docker run -d --name backend-service -p 5000:5000 expense-backend
+
+      - name: Run Frontend Container
+        run: docker run -d --name frontend-service -p 80:80 expense-frontend
+
+
