@@ -34,18 +34,20 @@ jobs:
       # -------------------------------------------------------------
       # STEP 2: Hadolint (Dockerfile Linting)
       # -------------------------------------------------------------
+      # -------------------------------------------------------------
+      # STEP 2: Hadolint (Dockerfile Linting)
+      # -------------------------------------------------------------
       - name: Run Hadolint Scan
         id: hadolint
         continue-on-error: true
         run: |
-          docker run --rm -i hadolint/hadolint hadolint - < Dockerfile > scan_errors.log 2>&1
+          docker run --rm -v "$(pwd):/root" -w /root hadolint/hadolint hadolint Dockerfile > scan_errors.log 2>&1
 
       - name: Check Hadolint Status
         if: steps.hadolint.outcome != 'success'
         run: |
           echo "FAILED_STEP=Hadolint (Dockerfile Lint)" >> $GITHUB_ENV
           exit 1
-
       # -------------------------------------------------------------
       # STEP 3: Bandit (Python Security Scan)
       # -------------------------------------------------------------
