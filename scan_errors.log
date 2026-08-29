@@ -1,0 +1,60 @@
+Unable to find image 'cytopia/bandit:latest' locally
+latest: Pulling from cytopia/bandit
+c1d6d1b2d5a3: Pulling fs layer
+9a3675711d40: Pulling fs layer
+f661baa2b078: Pulling fs layer
+150358ecee03: Pulling fs layer
+e294f7f68045: Pulling fs layer
+150358ecee03: Waiting
+e294f7f68045: Waiting
+c1d6d1b2d5a3: Download complete
+9a3675711d40: Verifying Checksum
+9a3675711d40: Download complete
+f661baa2b078: Verifying Checksum
+f661baa2b078: Download complete
+c1d6d1b2d5a3: Pull complete
+150358ecee03: Verifying Checksum
+150358ecee03: Download complete
+e294f7f68045: Verifying Checksum
+e294f7f68045: Download complete
+9a3675711d40: Pull complete
+f661baa2b078: Pull complete
+150358ecee03: Pull complete
+e294f7f68045: Pull complete
+Digest: sha256:72371c0ddaee0343a3ea9ec30dda0e242e38eeae4fc44fe962edad3ca99d849f
+Status: Downloaded newer image for cytopia/bandit:latest
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.10.12
+Run started:2026-08-29 11:17:53.206004
+
+Test results:
+>> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-605 (https://cwe.mitre.org/data/definitions/605.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html
+   Location: /app/app.py:4:29
+3	if __name__ == "__main__":
+4	    app.run(debug=True, host="0.0.0.0", port=5000)
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 920
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 0
+Files skipped (0):
