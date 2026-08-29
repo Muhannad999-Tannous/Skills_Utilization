@@ -18,12 +18,13 @@ jobs:
 
       # -------------------------------------------------------------
       # STEP 1: TruffleHog (Secrets Scan)
+      # Excludes .git to prevent flagging git credentials in .git/config
       # -------------------------------------------------------------
       - name: Run TruffleHog Scan
         id: trufflehog
         continue-on-error: true
         run: |
-          docker run --rm -v "$(pwd):/pwd" trufflesecurity/trufflehog:latest filesystem /pwd > trufflehog_results.log 2>&1
+          docker run --rm -v "$(pwd):/pwd" trufflesecurity/trufflehog:latest filesystem /pwd --exclude-paths=.git > trufflehog_results.log 2>&1
 
       # -------------------------------------------------------------
       # STEP 2: Hadolint (Dockerfile Linting)
