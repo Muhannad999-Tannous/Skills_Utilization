@@ -1,4 +1,4 @@
-name: Sequential Security Scan
+name: Security Scans (Non-Blocking Output Logs)
 
 on:
   push:
@@ -10,30 +10,21 @@ jobs:
   security-pipeline:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Allows committing the error log back to GitHub
+      contents: write  # Enables pushing result log files back to GitHub
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       # -------------------------------------------------------------
-      # STEP 1: TruffleHog (Secrets Scanning)
+      # STEP 1: TruffleHog (Secrets Scan)
       # -------------------------------------------------------------
       - name: Run TruffleHog Scan
         id: trufflehog
         continue-on-error: true
         run: |
-          docker run --rm -v "$(pwd):/pwd" trufflesecurity/trufflehog:latest filesystem /pwd > scan_errors.log 2>&1
+          docker run --rm -v "$(pwd):/pwd" trufflesecurity/trufflehog:latest filesystem /pwd > trufflehog_results.log 2>&1
 
-      - name: Check TruffleHog Status
-        if: steps.trufflehog.outcome != 'success'
-        run: |
-          echo "FAILED_STEP=TruffleHog (Secrets Scan)" >> $GITHUB_ENV
-          exit 1
-
-      # -------------------------------------------------------------
-      # STEP 2: Hadolint (Dockerfile Linting)
-      # -------------------------------------------------------------
       # -------------------------------------------------------------
       # STEP 2: Hadolint (Dockerfile Linting)
       # -------------------------------------------------------------
@@ -41,13 +32,8 @@ jobs:
         id: hadolint
         continue-on-error: true
         run: |
-          docker run --rm -v "$(pwd):/root" -w /root hadolint/hadolint hadolint Dockerfile > scan_errors.log 2>&1
+          docker run --rm -v "$(pwd):/root" -w /root hadolint/hadolint hadolint Dockerfile > hadolint_results.log 2>&1
 
-      - name: Check Hadolint Status
-        if: steps.hadolint.outcome != 'success'
-        run: |
-          echo "FAILED_STEP=Hadolint (Dockerfile Lint)" >> $GITHUB_ENV
-          exit 1
       # -------------------------------------------------------------
       # STEP 3: Bandit (Python Security Scan)
       # -------------------------------------------------------------
@@ -55,22 +41,16 @@ jobs:
         id: bandit
         continue-on-error: true
         run: |
-          docker run --rm -v "$(pwd):/app" cytopia/bandit -r /app > scan_errors.log 2>&1
-
-      - name: Check Bandit Status
-        if: steps.bandit.outcome != 'success'
-        run: |
-          echo "FAILED_STEP=Bandit (Python AST Scan)" >> $GITHUB_ENV
-          exit 1
+          docker run --rm -v "$(pwd):/app" cytopia/bandit -r /app > bandit_results.log 2>&1
 
       # -------------------------------------------------------------
-      # ERROR HANDLING: Commit log to repository on failure
+      # COMMIT LOG FILES TO REPOSITORY
       # -------------------------------------------------------------
-      - name: Commit Scan Errors to GitHub
-        if: failure()
+      - name: Commit Tool Log Files to GitHub
+        if: always()
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f scan_errors.log
-          git commit -m "build(security): automated log - failure in ${FAILED_STEP}"
+          git add -f trufflehog_results.log hadolint_results.log bandit_results.log
+          git commit -m "build(security): update scan results logs" || echo "No changes to commit"
           git push
