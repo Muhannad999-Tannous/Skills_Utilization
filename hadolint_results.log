@@ -1,0 +1,8 @@
+Unable to find image 'hadolint/hadolint:latest' locally
+latest: Pulling from hadolint/hadolint
+83cf56c1bf8f: Pulling fs layer
+83cf56c1bf8f: Download complete
+83cf56c1bf8f: Pull complete
+Digest: sha256:32dac94127fd60b7b7e3fbfc65e1383b9b5e25c9bfd7b8536de7a539fe68a12d
+Status: Downloaded newer image for hadolint/hadolint:latest
+Dockerfile:1:1 unexpected 'c' expecting '#', ADD, ARG, CMD, COPY, ENTRYPOINT, ENV, EXPOSE, FROM, HEALTHCHECK, LABEL, MAINTAINER, ONBUILD, RUN, SHELL, STOPSIGNAL, USER, VOLUME, WORKDIR, a pragma, end of input, or whitespaces 
