@@ -5,17 +5,17 @@ fbb7b6f067ab: Pulling fs layer
 4f4fb700ef54: Pulling fs layer
 99855ed812e7: Pulling fs layer
 4b6a87546921: Pulling fs layer
-4b6a87546921: Waiting
 99855ed812e7: Waiting
+4b6a87546921: Waiting
 4f4fb700ef54: Verifying Checksum
 4f4fb700ef54: Download complete
 f7ee36c9aa34: Verifying Checksum
 f7ee36c9aa34: Download complete
 fbb7b6f067ab: Verifying Checksum
 fbb7b6f067ab: Download complete
-f7ee36c9aa34: Pull complete
 4b6a87546921: Verifying Checksum
 4b6a87546921: Download complete
+f7ee36c9aa34: Pull complete
 99855ed812e7: Verifying Checksum
 99855ed812e7: Download complete
 fbb7b6f067ab: Pull complete
@@ -24,6 +24,4 @@ fbb7b6f067ab: Pull complete
 4b6a87546921: Pull complete
 Digest: sha256:deb2af10659a488a14d262a323addcde099d99827a1cf1dc4e93c17915c39f08
 Status: Downloaded newer image for trufflesecurity/trufflehog:latest
-🐷🔑🐷  TruffleHog. Unearth your secrets. 🐷🔑🐷
-
-2026-08-29T11:50:36Z	error	trufflehog	unable to open filter file	{"file": ".git", "file": ".git", "error": "open .git: no such file or directory"}
+trufflehog: error: unknown long flag '--exclude-globs', try --help

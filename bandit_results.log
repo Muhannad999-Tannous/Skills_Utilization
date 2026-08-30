@@ -8,14 +8,14 @@ e294f7f68045: Pulling fs layer
 150358ecee03: Waiting
 e294f7f68045: Waiting
 c1d6d1b2d5a3: Verifying Checksum
-9a3675711d40: Download complete
 f661baa2b078: Verifying Checksum
 f661baa2b078: Download complete
-c1d6d1b2d5a3: Pull complete
 150358ecee03: Verifying Checksum
 150358ecee03: Download complete
-e294f7f68045: Verifying Checksum
 e294f7f68045: Download complete
+c1d6d1b2d5a3: Pull complete
+9a3675711d40: Verifying Checksum
+9a3675711d40: Download complete
 9a3675711d40: Pull complete
 f661baa2b078: Pull complete
 150358ecee03: Pull complete
@@ -27,7 +27,7 @@ Status: Downloaded newer image for cytopia/bandit:latest
 [main]	INFO	cli include tests: None
 [main]	INFO	cli exclude tests: None
 [main]	INFO	running on Python 3.10.12
-Run started:2026-08-29 11:50:42.379920
+Run started:2026-08-30 10:54:38.701785
 
 Test results:
 	No issues identified.
