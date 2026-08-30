@@ -16,14 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # -------------------------------------------------------------
-      # STEP 1: TruffleHog (Secrets Scan)
-      # Excludes .git to prevent flagging git credentials in .git/config
-      # -------------------------------------------------------------
-      # -------------------------------------------------------------
-      # STEP 1: TruffleHog (Secrets Scan)
-      # -------------------------------------------------------------
-      # -------------------------------------------------------------
       # STEP 1: TruffleHog (Secrets Scan)
       # -------------------------------------------------------------
       - name: Run TruffleHog Scan
