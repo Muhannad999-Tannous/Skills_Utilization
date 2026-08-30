@@ -21,7 +21,7 @@ jobs:
         id: trufflehog
         continue-on-error: true
         run: |
-          docker run --rm -v "$(pwd):/pwd" trufflesecurity/trufflehog:latest filesystem /pwd --exclude-paths=/pwd/.git > trufflehog_results.log 2>&1
+          docker run --rm -v "$(pwd):/pwd" -w /pwd trufflesecurity/trufflehog:latest filesystem . --exclude-paths="^\./\.git/" > trufflehog_results.log 2>&1
 
       # -------------------------------------------------------------
       # STEP 2: Hadolint (Dockerfile Linting)
