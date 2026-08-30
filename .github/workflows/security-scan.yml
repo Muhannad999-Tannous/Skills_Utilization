@@ -9,15 +9,11 @@ on:
 jobs:
   security-pipeline:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Enables pushing result log files back to GitHub
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # STEP 1: TruffleHog (Secrets Scan)
-      # -------------------------------------------------------------
       # -------------------------------------------------------------
       # STEP 1: TruffleHog (Secrets Scan)
       # -------------------------------------------------------------
@@ -26,6 +22,8 @@ jobs:
         continue-on-error: true
         run: |
           docker run --rm -v "$(pwd):/pwd" trufflesecurity/trufflehog:latest filesystem /pwd --exclude-paths=/pwd/.git > trufflehog_results.log 2>&1
+
+      # -------------------------------------------------------------
       # STEP 2: Hadolint (Dockerfile Linting)
       # -------------------------------------------------------------
       - name: Run Hadolint Scan
@@ -44,13 +42,14 @@ jobs:
           docker run --rm -v "$(pwd):/app" cytopia/bandit -r /app > bandit_results.log 2>&1
 
       # -------------------------------------------------------------
-      # COMMIT LOG FILES TO REPOSITORY
+      # UPLOAD RESULTS AS A DOWNLOADABLE ARTIFACT
       # -------------------------------------------------------------
-      - name: Commit Tool Log Files to GitHub
+      - name: Upload Security Scan Logs
         if: always()
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f trufflehog_results.log hadolint_results.log bandit_results.log
-          git commit -m "build(security): update scan results logs" || echo "No changes to commit"
-          git push
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scan-logs
+          path: |
+            trufflehog_results.log
+            hadolint_results.log
+            bandit_results.log
